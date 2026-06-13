@@ -1,0 +1,68 @@
+# INPUT SECTION
+PRINT "Write the left endpoint of the interval: "
+READ a
+PRINT "Write the right endpoint of the interval: "
+READ b
+PRINT "Write the functtion to integrate: "
+READ f_x
+PRINT "Writhe the integration method (LRM,RRM,MRM,TRAP)"
+READ method
+
+# PROCESS SECTION
+# Dynamic pi evaluation matching your Thonny code logic
+IF a CONTAINS "pi" THEN
+    a_replaced ← REPLACE_TEXT("pi" IN a WITH STRING(3.141592653589793))
+    a ← EVALUATE_MATH_EXPRESSION(a_replaced)
+ELSE
+    a ← CONVERT_TO_FLOAT(a)
+ENDIF
+
+IF b CONTAINS "pi" THEN
+    b_replaced ← REPLACE_TEXT("pi" IN b WITH STRING(3.141592653589793))
+    b ← EVALUATE_MATH_EXPRESSION(b_replaced)
+ELSE
+    b ← CONVERT_TO_FLOAT(b)
+ENDIF
+
+# Variable initialization exactly as written in class
+n ← 1000
+h ← (b - a) / n
+area ← 0.0
+shift ← 0
+constant ← 0
+variable ← 0
+
+# Adjusting shifts according to your conditions
+IF method IS "RRM" THEN
+    shift ← 1
+ENDIF
+
+IF method IS "MRM" THEN
+    constant ← h / 2.0
+ENDIF
+
+# Main operational branch structure
+IF method IS "TRAP" THEN
+    variable ← 1
+    f_0_expr ← REPLACE_TEXT("x" IN f_x WITH STRING(a))
+    area ← area + (h / 2.0) * EVALUATE_MATH_EXPRESSION(f_0_expr)
+    
+    FOR i FROM variable TO n - 1 STEP 1
+        xi ← a + i * h
+        f_xi_expr ← REPLACE_TEXT("x" IN f_x WITH STRING(xi))
+        area ← area + (h / 2.0) * 2.0 * EVALUATE_MATH_EXPRESSION(f_xi_expr)
+    ENDFOR
+    
+    f_xn_expr ← REPLACE_TEXT("x" IN f_x WITH STRING(b))
+    area ← area + (h / 2.0) * EVALUATE_MATH_EXPRESSION(f_xn_expr)
+ELSE   
+    # This block executes LRM, RRM and MRM loops
+    FOR i FROM (0 + shift) TO (n + shift - 1) STEP 1
+        xi ← a + i * h
+        height_expr ← REPLACE_TEXT("x" IN f_x WITH STRING(xi + constant))
+        area ← area + h * EVALUATE_MATH_EXPRESSION(height_expr)
+    ENDFOR
+ENDIF
+
+# DISPLAY SECTION
+PRINT "The integration of " + f_x + " is " + STRING(area)
