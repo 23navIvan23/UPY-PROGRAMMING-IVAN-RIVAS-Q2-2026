@@ -1,0 +1,233 @@
+# ===========================================
+
+# Classwork #10 - School Management System
+
+# PPP.txt
+
+# ===========================================
+
+BEGIN
+
+# Create the users dictionary
+
+Create users with:
+
+* Luis Escalante (student)
+* Alejandro Figueroa (student)
+* Arcadio Dardón (student)
+* Iván Rivas (student)
+* Keyra Pool (student)
+* Cristian Cab (student)
+* Jorge Pedrozo Romero (teacher)
+* Rosa García (coordinator)
+
+# Create the subjects tuple
+
+subjects ← (
+Programming,
+Social Emotional Skills and Conflict Management,
+Probability and Statistics,
+Computer and Server Architecture,
+Tutoring,
+Differential Calculus,
+Discrete Math,
+English II
+)
+
+# Create the grades dictionary
+
+Assign one grade for every subject to each student
+
+logged_in ← False
+
+# -------------------------
+
+# LOGIN
+
+# -------------------------
+
+WHILE logged_in = False
+
+Display "Username:"
+Read username
+
+Display "Password:"
+Read password
+
+IF username exists in users THEN
+
+```
+IF password matches the user's password THEN
+
+    logged_in ← True
+
+    role ← user's role
+
+    name ← user's name
+
+    Display welcome message
+
+ELSE
+
+    Display "Incorrect password"
+
+ENDIF
+```
+
+ELSE
+
+```
+Display "User does not exist"
+```
+
+ENDIF
+
+ENDWHILE
+
+# -------------------------
+
+# STUDENT MENU
+
+# -------------------------
+
+IF role = student THEN
+
+Display report card
+
+approved ← Empty set
+
+FOR each subject in subjects
+
+```
+Display subject
+
+Display student's grade
+
+IF grade ≥ 8.0 THEN
+
+    Add subject to approved
+
+ENDIF
+```
+
+ENDFOR
+
+pending ← Set(subjects) - approved
+
+Display approved subjects
+
+Display pending subjects
+
+# -------------------------
+
+# TEACHER MENU
+
+# -------------------------
+
+ELSE IF role = teacher THEN
+
+Display all students
+
+FOR each user
+
+```
+IF user role is student THEN
+
+    Display username
+
+    Display full name
+
+ENDIF
+```
+
+ENDFOR
+
+Ask for student username
+
+IF student exists THEN
+
+```
+Display all subjects
+
+Ask for subject
+
+IF subject exists THEN
+
+    Ask for new grade
+
+    Replace old grade with new grade
+
+    Display confirmation message
+
+    Display updated grades
+
+ELSE
+
+    Display invalid subject message
+
+ENDIF
+```
+
+ELSE
+
+```
+Display student not found message
+```
+
+ENDIF
+
+# -------------------------
+
+# COORDINATOR MENU
+
+# -------------------------
+
+ELSE IF role = coordinator THEN
+
+Display teacher list
+
+FOR each user
+
+```
+IF user role is teacher THEN
+
+    Display teacher name
+
+ENDIF
+```
+
+ENDFOR
+
+Display subjects
+
+FOR each subject in subjects
+
+```
+Display subject
+```
+
+ENDFOR
+
+Display students and grades
+
+FOR each student
+
+```
+Display student name
+
+FOR each subject in subjects
+
+    Display subject
+
+    Display grade
+
+ENDFOR
+```
+
+ENDFOR
+
+ENDIF
+
+Display "Program finished"
+
+END
