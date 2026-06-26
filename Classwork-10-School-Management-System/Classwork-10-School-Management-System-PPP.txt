@@ -8,7 +8,7 @@
 
 BEGIN
 
-# Create the users dictionary
+# Create users dictionary
 
 Create users with:
 
@@ -21,7 +21,7 @@ Create users with:
 * Jorge Pedrozo Romero (teacher)
 * Rosa García (coordinator)
 
-# Create the subjects tuple
+# Create subjects tuple
 
 subjects ← (
 Programming,
@@ -34,17 +34,17 @@ Discrete Math,
 English II
 )
 
-# Create the grades dictionary
+# Create grades dictionary
 
 Assign one grade for every subject to each student
 
 logged_in ← False
 
-# -------------------------
+# ==========================
 
 # LOGIN
 
-# -------------------------
+# ==========================
 
 WHILE logged_in = False
 
@@ -54,10 +54,10 @@ Read username
 Display "Password:"
 Read password
 
-IF username exists in users THEN
+IF username exists THEN
 
 ```
-IF password matches the user's password THEN
+IF password is correct THEN
 
     logged_in ← True
 
@@ -65,7 +65,15 @@ IF password matches the user's password THEN
 
     name ← user's name
 
-    Display welcome message
+    IF role = teacher THEN
+
+        Display "Welcome Professor"
+
+    ELSE
+
+        Display welcome message
+
+    ENDIF
 
 ELSE
 
@@ -84,11 +92,11 @@ ENDIF
 
 ENDWHILE
 
-# -------------------------
+# ==========================
 
 # STUDENT MENU
 
-# -------------------------
+# ==========================
 
 IF role = student THEN
 
@@ -101,9 +109,9 @@ FOR each subject in subjects
 ```
 Display subject
 
-Display student's grade
+Display grade
 
-IF grade ≥ 8.0 THEN
+IF grade ≥ 7.0 THEN
 
     Add subject to approved
 
@@ -118,113 +126,167 @@ Display approved subjects
 
 Display pending subjects
 
-# -------------------------
+# ==========================
 
 # TEACHER MENU
 
-# -------------------------
+# ==========================
 
 ELSE IF role = teacher THEN
 
-Display all students
+teacher_menu ← True
 
-FOR each user
+WHILE teacher_menu = True
 
 ```
-IF user role is student THEN
-
-    Display username
-
-    Display full name
-
-ENDIF
-```
-
-ENDFOR
+Display student list
 
 Ask for student username
 
-IF student exists THEN
+IF user types Exit THEN
 
-```
-Display all subjects
-
-Ask for subject
-
-IF subject exists THEN
-
-    Ask for new grade
-
-    Replace old grade with new grade
-
-    Display confirmation message
-
-    Display updated grades
+    teacher_menu ← False
 
 ELSE
 
-    Display invalid subject message
+    IF student exists THEN
+
+        choose_subject ← True
+
+        WHILE choose_subject = True
+
+            Display subjects
+
+            Ask for subject
+
+            IF user types Exit THEN
+
+                teacher_menu ← False
+
+                choose_subject ← False
+
+            ELSE IF user types Back THEN
+
+                choose_subject ← False
+
+            ELSE
+
+                IF subject exists THEN
+
+                    Ask for new grade
+
+                    Display current grade
+
+                    Display new grade
+
+                    Display confirmation options
+
+                    Display:
+                    yes
+                    no
+                    back
+                    exit
+
+                    Read option
+
+                    IF option = yes THEN
+
+                        Replace grade
+
+                        Display updated grades
+
+                        choose_subject ← False
+
+                    ELSE IF option = no THEN
+
+                        Display "Enter another grade"
+
+                    ELSE IF option = back THEN
+
+                        Display "Returning to subject selection"
+
+                    ELSE IF option = exit THEN
+
+                        teacher_menu ← False
+
+                        choose_subject ← False
+
+                    ELSE
+
+                        Display invalid option
+
+                    ENDIF
+
+                ELSE
+
+                    Display invalid subject
+
+                ENDIF
+
+            ENDIF
+
+        ENDWHILE
+
+    ELSE
+
+        Display student not found
+
+    ENDIF
 
 ENDIF
 ```
 
-ELSE
+ENDWHILE
 
-```
-Display student not found message
-```
+Display "Closing session"
 
-ENDIF
-
-# -------------------------
+# ==========================
 
 # COORDINATOR MENU
 
-# -------------------------
+# ==========================
 
 ELSE IF role = coordinator THEN
 
 Display teacher list
 
-FOR each user
+FOR each teacher
 
-```
-IF user role is teacher THEN
-
-    Display teacher name
-
-ENDIF
-```
+Display teacher name
 
 ENDFOR
 
 Display subjects
 
-FOR each subject in subjects
+FOR each subject
 
-```
 Display subject
-```
 
 ENDFOR
 
-Display students and grades
+Display students table
 
 FOR each student
 
-```
 Display student name
 
-FOR each subject in subjects
+FOR each subject
 
-    Display subject
+Display grade
 
-    Display grade
+IF grade < 7.0 THEN
+
+Highlight failed grade
+
+ENDIF
 
 ENDFOR
-```
+
+Display failed subjects count
 
 ENDFOR
+
+Display summary
 
 ENDIF
 
